@@ -128,10 +128,12 @@ function onMessage(message) {
   }
 
   if (msg.startsWith("Out of sync, check your internet connection!")) {
-    bot.chat("/lobby");
+    setTimeout(function () {
+      bot.chat("/lobby");
+    }, 4000);
     setTimeout(function () {
       bot.chat("/play sb");
-    }, 2000);
+    }, 4000);
     setTimeout(() => {
       bot.chat("/warp home");
     }, 6000);
