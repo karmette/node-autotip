@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle, no-return-assign */
 const mineflayer = require("mineflayer");
 const wait = require("util").promisify(setTimeout);
 const config = require("./config");
@@ -35,7 +34,9 @@ function sendToLimbo() {
   logger.info("Sending player to skyblock...");
   bot.chat("/play sb");
   logger.info("Sending player to home...");
-  bot.chat("/warp home");
+  setTimeout(() => {
+    bot.chat("/warp home");
+  }, 10000);
 }
 
 function getHoverData(message) {
@@ -64,6 +65,7 @@ function chatLogger(message) {
     "No one has a network booster active right now! Try again later.",
     "You already tipped everyone that has boosters active, so there isn't anybody to be tipped right now!",
     "You've already tipped someone in the past hour in",
+    "1,390",
   ];
   if (config.HIDE_TIP_MESSAGES) {
     if (blacklist.includes(str) || regex.test(str)) {
@@ -120,7 +122,19 @@ function onMessage(message) {
 
   if (msg.startsWith("[Important] This server will restart soon:")) {
     bot.chat("/evacuate");
-    bot.chat("/warp home");
+    setTimeout(function () {
+      bot.chat("/warp home");
+    }, 10000);
+  }
+
+  if (msg.startsWith("Out of sync, check your internet connection!")) {
+    bot.chat("/lobby");
+    setTimeout(function () {
+      bot.chat("/play sb");
+    }, 2000);
+    setTimeout(() => {
+      bot.chat("/warp home");
+    }, 6000);
   }
 
   if (msg.startsWith("You tipped")) {
