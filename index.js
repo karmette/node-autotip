@@ -34,7 +34,6 @@ function setLang(language = "english") {
 function sendToLimbo() {
   logger.info("Sending player to skyblock...");
   bot.chat("/play sb");
-  await.wait(5000);
   logger.info("Sending player to home...");
   bot.chat("/warp home");
 }
@@ -121,7 +120,6 @@ function onMessage(message) {
 
   if (msg.startsWith("[Important] This server will restart soon:")) {
     bot.chat("/evacuate");
-    await.wait(10000);
     bot.chat("/warp home");
   }
 
