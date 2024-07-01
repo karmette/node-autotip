@@ -65,7 +65,6 @@ function chatLogger(message) {
     "No one has a network booster active right now! Try again later.",
     "You already tipped everyone that has boosters active, so there isn't anybody to be tipped right now!",
     "You've already tipped someone in the past hour in",
-    "1,390",
   ];
   if (config.HIDE_TIP_MESSAGES) {
     if (blacklist.includes(str) || regex.test(str)) {
@@ -121,6 +120,7 @@ function onMessage(message) {
   chatLogger(message);
 
   if (msg.startsWith("[Important] This server will restart soon:")) {
+    logger.info("Attempting to warp back home...");
     bot.chat("/evacuate");
     setTimeout(function () {
       bot.chat("/warp home");
@@ -128,13 +128,17 @@ function onMessage(message) {
   }
 
   if (msg.startsWith("Out of sync, check your internet connection!")) {
-    setTimeout(function () {
+    logger.info("Attempting to warp back into skyblock...");
+    setTimeout(() => {
+      logger.info("Attempting lobby...");
       bot.chat("/lobby");
     }, 4000);
-    setTimeout(function () {
-      bot.chat("/play sb");
-    }, 4000);
     setTimeout(() => {
+      logger.info("Attempting skyblock...");
+      bot.chat("/play sb");
+    }, 6000);
+    setTimeout(() => {
+      logger.info("Attempting home...");
       bot.chat("/warp home");
     }, 6000);
   }
